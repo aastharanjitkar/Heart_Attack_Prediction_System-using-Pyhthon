@@ -1,4 +1,4 @@
-# Heart_Attack_Prediction_System-using-Pyhthon
+# Heart_Attack_Prediction_System
 A heart attack occurs when blood flow to part of the heart muscle is blocked, often due to a blood clot, leading to potential damage or death. Cardiovascular diseases, including heart attacks, are the leading global cause of death, making early prediction vital. This include learning algorithms, such as Logistic Regression, Support Vector Machines (SVM), to predict heart attacks by analyzing patient data, including lifestyle choices, hereditary factors, blood pressure, and cholesterol levels.
 
 # Dataset Information:
