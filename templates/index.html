@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Heart Attack Prediction</title>
+
+    <style>
+        body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0vh;
+        background-image: url('ai-heart.jpeg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        }
+
+        h1 {
+            color: red;
+            font-size: 28px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        form {
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        border: 4px solid #3498db;
+        }
+
+        .title {
+        text-align: center;
+        margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input {
+            width: 100%;
+            padding: 5px;
+            margin-bottom: 8px;
+            box-sizing: border-box;
+        }
+
+       button {
+        display: block;
+        margin: 0 auto; /* Centers the button horizontally */
+        width: 200px; /* Adjust the width as needed */
+        height: 40px; /* Adjust the height as needed */
+        background-color: #4caf50;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 20px;
+        }
+
+        button:hover {
+        background-color: #45a049;
+        }
+
+        h2 {
+        text-align: center;
+        color: white;
+        margin-bottom: 10px;
+        }
+
+    </style>
+    <script>
+        function validateNumericInput(event, min, max) {
+            const input = event.target;
+            const inputValue = input.value.trim();
+            if (!/^\d*\.?\d*$/.test(inputValue))
+            {
+                input.value = inputValue.replace(/[^\d.]/g, '');  // Remove non-numeric characters
+            }
+            else {
+                const numericValue = parseFloat(inputValue);
+                if (!isNaN(numericValue) && (numericValue >= min && numericValue <= max)) {
+                input.setCustomValidity('');
+                } else {
+                    input.setCustomValidity(`Please enter a number between ${min} and ${max}.`);
+                }
+            }
+        }
+
+        function isGenderValid(event) {
+        const key = event.key;
+        return /^[01]$/.test(key);}
+    </script>
+
+</head>
+<body>
+
+    <form action="/predict" method="post">
+        <div class="title">
+            <h1>Heart Attack Prediction</h1>
+        </div>
+        <label for="age">Age:</label>
+        <input type="text" id="age" name="age" placeholder="Enter age (1-120)" oninput="validateNumericInput(event, 1, 120)" required><br>
+        <label for="gender">Gender (0 or 1):</label>
+        <input type="text" id="gender" name="gender" maxlength="1" pattern="[01]" title="Please enter 0 or 1" placeholder="0 for male 1 for female" onkeypress="return isGenderValid(event)" required><br>
+        <label for="impluse">Impulse:</label>
+        <input type="text" id="impluse" name="impluse" placeholder="range from 60 to 500 per minute" oninput="validateNumericInput(event, 60, 500)"required><br>
+        <label for="pressurehigh">High Blood Pressure:</label>
+        <input type="text" id="pressurehigh" name="pressurehigh" placeholder="100mmHg-400mmHg" oninput="validateNumericInput(event, 100, 400)" required><br>
+        <label for="pressurelow">Low Blood Pressure::</label>
+        <input type="text" id="pressurelow" name="pressurelow" placeholder="50mmHg-200mmHg" oninput="validateNumericInput(event, 50, 200)" required><br>
+        <label for="glucose">Glucose:</label>
+        <input type="text" id="glucose" name="glucose" placeholder="50mg/dL-500mg/dL" oninput="validateNumericInput(event, 50, 500)"required><br>
+        <label for="kcm">Keratoacanthoma centrifugum marginatum:</label>
+        <input type="text" id="kcm" name="kcm" placeholder="size range from 0-50" oninput="validateNumericInput(event, 1, 50)"required><br>
+        <label for="troponin">Troponin:</label>
+        <input type="text" id="troponin" name="troponin" placeholder="0ng/ml-14ng/ml" oninput="validateNumericInput(event, 0, 14)"required><br>
+        <button type="submit">Predict</button>
+
+        <h2 style="color: white; margin-bottom:10px;">
+            {{prediction_text}}
+        </h2>
+    </form>
+
+</body>
+</html>

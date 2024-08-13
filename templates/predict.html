@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Heart Attack Prediction Result</title>
+
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            margin: 0;
+            background-color: light blue;
+        }
+
+        .result-container {
+        text-align: center;
+        padding: 15px;
+        border-radius: 15px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        border: 4px solid #3498db;
+        width: 70%;
+        margin: 0 auto;
+        }
+
+        .result-text {
+            color: #333;
+            font-size: 24px;
+            margin-top: 10px;
+        }
+        a {
+        text-decoration: none;
+        color: #3498db;
+        font-weight: bold;
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #ecf0f1;
+        border-radius: 5px;
+        margin-top: 10px;
+        transition: background-color 0.3s ease;
+        }
+
+        a:hover {
+        background-color: #2980b9;
+        color: #fff;
+        }
+        .chart-container {
+        width: 400px;
+        height: 200px;
+        margin: 0 auto;
+</style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1 style="color: Green; text-align: center;">RESULT</h1>
+    <div class="result-container">
+        <p class="result-text">{{ result }}</p>
+        <p>Comparison with Normal Heart Parameters:</p>
+        <canvas id="comparisonChart" width="400" height="200"></canvas>
+        <a href="{{ url_for('home') }}">Go back to Home</a>
+    </div>
+    <div class="graph-container">
+    <canvas id="userGraph" width="400" height="400"></canvas>
+</div>
+
+    <script>
+        // Get user input data from Flask template
+        var userImpulse = {{ impulse }};
+        var userPressureHigh = {{ pressurehigh }};
+        var userPressureLow = {{ pressurelow }};
+        var userGlucose = {{ glucose }};
+        var userTroponin = {{ troponin }};
+
+        var normalImpulse = 80;
+        var normalPressureHigh = 120;
+        var normalPressureLow = 98;
+        var normalGlucose = 100;
+        var normalTroponin = 0.04;
+
+        // Create chart data
+        var ctx = document.getElementById('comparisonChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Impulse', 'PressureHigh', 'PressureLow', 'Glucose', 'Troponin'],
+                datasets: [{
+                    label: 'User Input',
+                    data: [userImpulse, userPressureHigh, userPressureLow, userGlucose, userTroponin],
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }, {
+                    label: 'Normal Range',
+                    data: [normalImpulse, normalPressureHigh, normalPressureLow, normalGlucose, normalTroponin],
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
